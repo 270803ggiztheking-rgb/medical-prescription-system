@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Recetas</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Panel Admin</h2>
+                <p id="doctorName">Dr. Miranda</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" fill="currentColor" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/admin/crear-receta.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
+                    </svg>
+                    Nueva Receta
+                </a>
+                <a href="#" id="logoutBtn" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
+                            fill="currentColor" />
+                    </svg>
+                    Cerrar Sesión
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Recetas Médicas</h1>
+                <a href="/admin/crear-receta.html" class="btn btn-primary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
+                    </svg>
+                    Nueva Receta
+                </a>
+            </header>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalRecetas">0</h3>
+                        <p>Total de Recetas</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                                fill="white" />
+                        </svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="recetasHoy">0</h3>
+                        <p>Recetas Hoy</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="section-header">
+                    <h2>Todas las Recetas</h2>
+                    <div class="search-box">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                fill="currentColor" />
+                        </svg>
+                        <input type="text" id="searchInput" placeholder="Buscar por nombre o código...">
+                    </div>
+                </div>
+
+                <div id="loadingSpinner" class="loading-spinner">
+                    <svg class="spinner" viewBox="0 0 50 50">
+                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    </svg>
+                    <p>Cargando recetas...</p>
+                </div>
+
+                <div id="recetasTable" style="display: none;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Paciente</th>
+                                <th>Fecha Consulta</th>
+                                <th>Diagnóstico</th>
+                                <th>Creada</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recetasBody">
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="emptyState" style="display: none;" class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"
+                            fill="currentColor" />
+                    </svg>
+                    <h3>No hay recetas aún</h3>
+                    <p>Crea tu primera receta médica</p>
+                    <a href="/admin/crear-receta.html" class="btn btn-primary">Nueva Receta</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para ver QR -->
+    <div id="qrModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Código QR de la Receta</h3>
+                <button class="modal-close" onclick="closeQRModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="qrContainer" style="text-align: center;">
+                    <img id="qrImage" src="" alt="QR Code" style="max-width: 300px;">
+                    <p id="qrUrl" style="margin-top: 1rem; word-break: break-all;"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeQRModal()">Cerrar</button>
+                <button class="btn btn-primary" onclick="downloadQR()">Descargar QR</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        let allRecetas = [];
+        let currentQRData = null;
+
+        // Verificar autenticación
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/check-session');
+                const data = await response.json();
+
+                if (!data.authenticated) {
+                    window.location.href = '/admin/login.html';
+                } else {
+                    document.getElementById('doctorName').textContent = data.user.nombre;
+                    loadRecetas();
+                }
+            } catch (error) {
+                console.error('Error verificando sesión:', error);
+                window.location.href = '/admin/login.html';
+            }
+        }
+
+        // Cargar recetas
+        async function loadRecetas() {
+            try {
+                const response = await fetch('/api/recetas');
+                const data = await response.json();
+
+                if (data.success) {
+                    allRecetas = data.recetas;
+                    displayRecetas(allRecetas);
+                    updateStats(allRecetas);
+                }
+            } catch (error) {
+                console.error('Error cargando recetas:', error);
+            } finally {
+                document.getElementById('loadingSpinner').style.display = 'none';
+            }
+        }
+
+        // Mostrar recetas en la tabla
+        function displayRecetas(recetas) {
+            const tbody = document.getElementById('recetasBody');
+            const table = document.getElementById('recetasTable');
+            const emptyState = document.getElementById('emptyState');
+
+            if (recetas.length === 0) {
+                table.style.display = 'none';
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            table.style.display = 'block';
+            emptyState.style.display = 'none';
+
+            tbody.innerHTML = recetas.map(receta => `
+                <tr>
+                    <td><code>${receta.codigo}</code></td>
+                    <td>${receta.paciente_nombre}</td>
+                    <td>${formatDate(receta.fecha_consulta)}</td>
+                    <td>${truncate(receta.diagnostico, 50)}</td>
+                    <td>${formatDateTime(receta.created_at)}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="viewReceta('${receta.codigo}')" title="Ver receta">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon" onclick="showQR('${receta.codigo}')" title="Ver QR">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13-2h3v2h-3zm0 4h3v4h-3zm-5 0h2v4h-2z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                            <button class="btn-icon btn-danger" onclick="deleteReceta('${receta.codigo}')" title="Eliminar">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Actualizar estadísticas
+        function updateStats(recetas) {
+            document.getElementById('totalRecetas').textContent = recetas.length;
+
+            const today = new Date().toISOString().split('T')[0];
+            const recetasHoy = recetas.filter(r => r.fecha_consulta === today).length;
+            document.getElementById('recetasHoy').textContent = recetasHoy;
+        }
+
+        // Ver receta
+        function viewReceta(codigo) {
+            window.open(`/receta.html?codigo=${codigo}`, '_blank');
+        }
+
+        // Mostrar QR
+        async function showQR(codigo) {
+            try {
+                const response = await fetch(`/api/recetas/${codigo}/qr`);
+                const data = await response.json();
+
+                if (data.success) {
+                    currentQRData = data.qr;
+                    document.getElementById('qrImage').src = data.qr;
+                    document.getElementById('qrUrl').textContent = data.url;
+                    document.getElementById('qrModal').style.display = 'flex';
+                }
+            } catch (error) {
+                console.error('Error obteniendo QR:', error);
+                alert('Error al generar el código QR');
+            }
+        }
+
+        function closeQRModal() {
+            document.getElementById('qrModal').style.display = 'none';
+        }
+
+        function downloadQR() {
+            if (currentQRData) {
+                const link = document.createElement('a');
+                link.download = 'receta-qr.png';
+                link.href = currentQRData;
+                link.click();
+            }
+        }
+
+        // Eliminar receta
+        async function deleteReceta(codigo) {
+            if (!confirm('¿Estás seguro de eliminar esta receta?')) return;
+
+            try {
+                const response = await fetch(`/api/recetas/${codigo}`, {
+                    method: 'DELETE'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    loadRecetas();
+                } else {
+                    alert('Error al eliminar la receta');
+                }
+            } catch (error) {
+                console.error('Error eliminando receta:', error);
+                alert('Error al eliminar la receta');
+            }
+        }
+
+        // Búsqueda
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filtered = allRecetas.filter(r =>
+                r.paciente_nombre.toLowerCase().includes(query) ||
+                r.codigo.toLowerCase().includes(query) ||
+                r.diagnostico.toLowerCase().includes(query)
+            );
+            displayRecetas(filtered);
+        });
+
+        // Utilidades
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('es-MX');
+        }
+
+        function formatDateTime(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleString('es-MX');
+        }
+
+        function truncate(str, length) {
+            return str.length > length ? str.substring(0, length) + '...' : str;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/admin/login.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+            }
+        });
+
+        // Inicializar
+        checkAuth();
+    </script>
+</body>
+
+</html>

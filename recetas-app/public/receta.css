@@ -1,0 +1,520 @@
+/* ========================================
+   RECETA MÉDICA PROFESIONAL - ESTILOS
+   Dr. Manuel Andrés Miranda Guillermo
+   ======================================== */
+
+:root {
+    --primary-color: #003366;
+    --secondary-color: #0052a3;
+    --accent-gold: #b8860b;
+    --text-black: #000000;
+    --text-dark: #1a1a1a;
+    --text-medium: #333333;
+    --text-gray: #666666;
+    --border-primary: #003366;
+    --border-secondary: #0052a3;
+    --border-light: #d0d0d0;
+    --bg-page: #f8f8f8;
+    --bg-white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif;
+    color: var(--text-black);
+    line-height: 1.5;
+    background: var(--bg-page);
+}
+
+/* ========== LOADING & ERROR ========== */
+.loading-screen,
+.error-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: white;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 1.5rem;
+    animation: rotate 2s linear infinite;
+}
+
+.spinner .path {
+    stroke: var(--primary-color);
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+.error-content svg {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+}
+
+.error-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.error-code {
+    font-family: 'Courier New', monospace;
+    background: #fee;
+    color: #c00;
+    padding: 0.5rem 1rem;
+    border: 1px solid #c00;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+/* ========== ACTIONS BAR ========== */
+.actions-bar {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 1000;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ========== RECETA CONTAINER ========== */
+.receta-container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 2rem;
+}
+
+.receta-page {
+    background: white;
+    padding: 0;
+    border: 4px double var(--border-primary);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+}
+
+/* Marca de agua sutil */
+.receta-page::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 120px;
+    color: rgba(0, 51, 102, 0.03);
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========== HEADER ========== */
+.receta-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    border-bottom: 3px solid var(--accent-gold);
+    position: relative;
+    z-index: 1;
+}
+
+.header-left {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    flex: 1;
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    background: white;
+    border-radius: 50%;
+    padding: 12px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo svg {
+    width: 100%;
+    height: 100%;
+}
+
+.doctor-info h1 {
+    font-family: 'Georgia', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-info p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.95;
+    font-family: Arial, sans-serif;
+}
+
+.header-right {
+    text-align: right;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+}
+
+.header-right p {
+    margin-bottom: 0.2rem;
+}
+
+.header-right strong {
+    font-weight: 700;
+}
+
+.header-right code {
+    background: rgba(255, 255, 255, 0.25);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ========== DIVIDER ========== */
+.receta-divider {
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-gold) 50%, var(--primary-color) 100%);
+    margin: 0;
+}
+
+/* ========== CONTENT SECTIONS ========== */
+section {
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+    z-index: 1;
+}
+
+section:last-of-type {
+    border-bottom: none;
+}
+
+section h2 {
+    font-family: Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ========== PATIENT INFO ========== */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    background: #fafafa;
+    padding: 1.25rem;
+    border: 1px solid var(--border-light);
+    border-left: 4px solid var(--primary-color);
+}
+
+.info-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.info-item .label {
+    font-weight: 700;
+    color: var(--text-dark);
+    min-width: 80px;
+}
+
+.info-item .value {
+    color: var(--text-medium);
+    font-weight: 500;
+}
+
+/* ========== DIAGNOSIS ========== */
+.diagnosis-content {
+    background: #fffef5;
+    padding: 1.5rem;
+    border: 2px solid var(--accent-gold);
+    border-left: 5px solid var(--accent-gold);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* ========== MEDICATIONS ========== */
+.medication-item {
+    display: flex;
+    gap: 1.25rem;
+    background: #f9f9f9;
+    padding: 1.25rem;
+    border: 1px solid var(--border-light);
+    border-left: 4px solid var(--secondary-color);
+    margin-bottom: 1rem;
+    page-break-inside: avoid;
+}
+
+.medication-number {
+    width: 38px;
+    height: 38px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.medication-details {
+    flex: 1;
+}
+
+.medication-details h3 {
+    font-family: Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.medication-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.6rem;
+}
+
+.medication-info p {
+    font-size: 0.88rem;
+    color: var(--text-medium);
+    line-height: 1.5;
+}
+
+.medication-info strong {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* ========== INDICATIONS ========== */
+.indications-content {
+    background: #fff9e6;
+    border: 2px solid #f0ad4e;
+    border-left: 5px solid #f0ad4e;
+    padding: 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    white-space: pre-line;
+    color: var(--text-dark);
+}
+
+/* ========== FOOTER ========== */
+.receta-footer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    background: #fafafa;
+    padding: 1.5rem 2.5rem;
+    border-top: 2px solid var(--border-light);
+    font-family: Arial, sans-serif;
+}
+
+.receta-footer p {
+    margin-bottom: 0.2rem;
+    line-height: 1.5;
+}
+
+.receta-footer strong {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* ========== SIGNATURE ========== */
+.signature-section {
+    padding: 2.5rem 2.5rem 2rem;
+    display: flex;
+    justify-content: flex-end;
+    background: white;
+}
+
+.signature-line {
+    text-align: center;
+    min-width: 320px;
+}
+
+.signature-line p:first-child {
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    border-top: 2px solid var(--text-dark);
+    padding-top: 0.5rem;
+    font-weight: 700;
+}
+
+.signature-line p {
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    margin-bottom: 0.2rem;
+    font-family: Arial, sans-serif;
+}
+
+.signature-line strong {
+    font-weight: 700;
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+    body {
+        background: white;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .receta-container {
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .receta-page {
+        box-shadow: none;
+        border: 3px double var(--border-primary);
+        page-break-after: always;
+    }
+
+    .medication-item,
+    .diagnosis-content,
+    .indications-content,
+    .info-grid {
+        break-inside: avoid;
+    }
+
+    @page {
+        margin: 1.5cm;
+        size: letter;
+    }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .receta-page {
+        border-width: 2px;
+    }
+
+    .receta-header {
+        flex-direction: column;
+        padding: 1.5rem;
+    }
+
+    .header-left {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-right {
+        text-align: center;
+    }
+
+    .logo {
+        margin: 0 auto;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+
+    .info-grid,
+    .medication-info,
+    .receta-footer {
+        grid-template-columns: 1fr;
+    }
+
+    .signature-section {
+        justify-content: center;
+        padding: 2rem 1.5rem;
+    }
+
+    .actions-bar {
+        position: static;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+}

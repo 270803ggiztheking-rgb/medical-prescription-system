@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Receta - Sistema de Recetas</title>
+    <link rel="stylesheet" href="admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Panel Admin</h2>
+                <p id="doctorName">Dr. Miranda</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard.html" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z" fill="currentColor" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/admin/crear-receta.html" class="nav-item active">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
+                    </svg>
+                    Nueva Receta
+                </a>
+                <a href="#" id="logoutBtn" class="nav-item">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
+                            fill="currentColor" />
+                    </svg>
+                    Cerrar Sesión
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Nueva Receta Médica</h1>
+                <a href="/admin/dashboard.html" class="btn btn-secondary">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor" />
+                    </svg>
+                    Volver
+                </a>
+            </header>
+
+            <div class="content-section">
+                <form id="recetaForm" class="receta-form">
+                    <div class="form-section">
+                        <h3>Información del Paciente</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="paciente_nombre">Nombre Completo del Paciente *</label>
+                                <input type="text" id="paciente_nombre" name="paciente_nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="paciente_edad">Edad</label>
+                                <input type="number" id="paciente_edad" name="paciente_edad" min="0" max="150">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fecha_consulta">Fecha de Consulta *</label>
+                                <input type="date" id="fecha_consulta" name="fecha_consulta" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Diagnóstico</h3>
+                        <div class="form-group">
+                            <label for="diagnostico">Diagnóstico *</label>
+                            <textarea id="diagnostico" name="diagnostico" rows="3" required></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Medicamentos</h3>
+                        <div id="medicamentosContainer">
+                            <div class="medicamento-item">
+                                <div class="form-row">
+                                    <div class="form-group" style="flex: 2;">
+                                        <label>Medicamento *</label>
+                                        <input type="text" class="med-nombre" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Dosis *</label>
+                                        <input type="text" class="med-dosis" placeholder="ej: 500mg" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Frecuencia *</label>
+                                        <input type="text" class="med-frecuencia" placeholder="ej: Cada 8 horas"
+                                            required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Duración *</label>
+                                        <input type="text" class="med-duracion" placeholder="ej: 7 días" required>
+                                    </div>
+                                    <div class="form-group" style="flex: 0;">
+                                        <label>&nbsp;</label>
+                                        <button type="button" class="btn-icon btn-danger remove-med"
+                                            style="display: none;">
+                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="addMedicamento" class="btn btn-secondary">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="currentColor" />
+                            </svg>
+                            Agregar Medicamento
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Indicaciones Generales</h3>
+                        <div class="form-group">
+                            <label for="indicaciones">Indicaciones</label>
+                            <textarea id="indicaciones" name="indicaciones" rows="4"
+                                placeholder="Indicaciones adicionales para el paciente..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="window.location.href='/admin/dashboard.html'">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-text">Crear Receta</span>
+                            <span class="btn-loader" style="display: none;">
+                                <svg class="spinner" viewBox="0 0 50 50">
+                                    <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de éxito -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>¡Receta Creada Exitosamente!</h3>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            fill="#4ade80" />
+                    </svg>
+                </div>
+                <p><strong>Código de la receta:</strong></p>
+                <p id="recetaCodigo" style="font-size: 2rem; font-weight: bold; color: #1e3a5f; margin: 1rem 0;"></p>
+                <div id="qrCodeContainer" style="margin: 2rem 0;">
+                    <img id="qrCodeImage" src="" alt="QR Code" style="max-width: 300px; margin: 0 auto;">
+                </div>
+                <p id="recetaUrl" style="word-break: break-all; color: #6b7280;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="downloadQR()">Descargar QR</button>
+                <button class="btn btn-secondary" onclick="viewReceta()">Ver Receta</button>
+                <button class="btn btn-primary" onclick="createAnother()">Crear Otra</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+    <script>
+        let currentRecetaData = null;
+
+        // Verificar autenticación
+        async function checkAuth() {
+            try {
+                const response = await fetch('/api/check-session');
+                const data = await response.json();
+
+                if (!data.authenticated) {
+                    window.location.href = '/admin/login.html';
+                } else {
+                    document.getElementById('doctorName').textContent = data.user.nombre;
+                }
+            } catch (error) {
+                console.error('Error verificando sesión:', error);
+                window.location.href = '/admin/login.html';
+            }
+        }
+
+        // Establecer fecha actual por defecto
+        document.getElementById('fecha_consulta').valueAsDate = new Date();
+
+        // Agregar medicamento
+        document.getElementById('addMedicamento').addEventListener('click', () => {
+            const container = document.getElementById('medicamentosContainer');
+            const newItem = document.querySelector('.medicamento-item').cloneNode(true);
+
+            // Limpiar valores
+            newItem.querySelectorAll('input').forEach(input => input.value = '');
+
+            // Mostrar botón de eliminar
+            newItem.querySelector('.remove-med').style.display = 'block';
+
+            container.appendChild(newItem);
+            updateRemoveButtons();
+        });
+
+        // Eliminar medicamento
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.remove-med')) {
+                e.target.closest('.medicamento-item').remove();
+                updateRemoveButtons();
+            }
+        });
+
+        function updateRemoveButtons() {
+            const items = document.querySelectorAll('.medicamento-item');
+            items.forEach((item, index) => {
+                const removeBtn = item.querySelector('.remove-med');
+                removeBtn.style.display = items.length > 1 ? 'block' : 'none';
+            });
+        }
+
+        // Enviar formulario
+        document.getElementById('recetaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoader = submitBtn.querySelector('.btn-loader');
+
+            // Recopilar medicamentos
+            const medicamentos = [];
+            document.querySelectorAll('.medicamento-item').forEach(item => {
+                medicamentos.push({
+                    nombre: item.querySelector('.med-nombre').value,
+                    dosis: item.querySelector('.med-dosis').value,
+                    frecuencia: item.querySelector('.med-frecuencia').value,
+                    duracion: item.querySelector('.med-duracion').value
+                });
+            });
+
+            const formData = {
+                paciente_nombre: document.getElementById('paciente_nombre').value,
+                paciente_edad: document.getElementById('paciente_edad').value || null,
+                fecha_consulta: document.getElementById('fecha_consulta').value,
+                diagnostico: document.getElementById('diagnostico').value,
+                medicamentos: medicamentos,
+                indicaciones: document.getElementById('indicaciones').value
+            };
+
+            // Mostrar loader
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoader.style.display = 'inline-block';
+
+            try {
+                const response = await fetch('/api/recetas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentRecetaData = data.receta;
+                    showSuccessModal(data.receta);
+                } else {
+                    alert('Error al crear la receta: ' + (data.error || 'Error desconocido'));
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoader.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error de conexión. Intente nuevamente.');
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+            }
+        });
+
+        function showSuccessModal(receta) {
+            document.getElementById('recetaCodigo').textContent = receta.codigo;
+            document.getElementById('qrCodeImage').src = receta.qr;
+            document.getElementById('recetaUrl').textContent = receta.url;
+            document.getElementById('successModal').style.display = 'flex';
+        }
+
+        function downloadQR() {
+            if (currentRecetaData) {
+                const link = document.createElement('a');
+                link.download = `receta-${currentRecetaData.codigo}.png`;
+                link.href = currentRecetaData.qr;
+                link.click();
+            }
+        }
+
+        function viewReceta() {
+            if (currentRecetaData) {
+                window.open(`/receta.html?codigo=${currentRecetaData.codigo}`, '_blank');
+            }
+        }
+
+        function createAnother() {
+            document.getElementById('successModal').style.display = 'none';
+            document.getElementById('recetaForm').reset();
+            document.getElementById('fecha_consulta').valueAsDate = new Date();
+
+            // Limpiar medicamentos extra
+            const container = document.getElementById('medicamentosContainer');
+            const items = container.querySelectorAll('.medicamento-item');
+            for (let i = 1; i < items.length; i++) {
+                items[i].remove();
+            }
+            updateRemoveButtons();
+
+            currentRecetaData = null;
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+                window.location.href = '/admin/login.html';
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+            }
+        });
+
+        // Inicializar
+        checkAuth();
+    </script>
+</body>
+
+</html>
